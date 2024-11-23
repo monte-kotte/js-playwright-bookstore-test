@@ -1,13 +1,46 @@
-import { test, expect } from '@playwright/test'
-const username = process.env.USER_NAME;
-const password = process.env.USER_PASSWORD;
+import test from '../fixtures/test.fixtures.js';
+import { expect } from '@playwright/test';
 
-test('Simple login test to start', async ({ page }) => {
-    await page.goto('/login');
-    await page.getByPlaceholder('Username').click();
-    await page.getByPlaceholder('Username').fill(username);
-    await page.getByText('Password').click();
-    await page.getByPlaceholder('Password').fill(password);
-    await page.locator('mat-card-actions').getByRole('button', { name: 'Login' }).click();
-    await expect(page.locator('mat-toolbar-row')).toContainText(username);
+test.describe('Login Tests', () => {
+
+    const username = process.env.USER_NAME;
+    const password = process.env.USER_PASSWORD;
+
+    test('User can log in with valid credentials', async ({ page, pm }) => {
+        // Login existing user
+        await page.goto('/login');
+        await pm.loginPage.login(username, password);
+        // Expect user was logged in
+        const actualUser = await pm.homePage.getActualUsername();
+        expect(actualUser).toContain(username);
+    });
+
+    test('Error messages appear when login with empty fields', async ({ page, pm }) => {
+        // Login with empty username and password
+        await page.goto('/login');
+        await pm.loginPage.login('', '');
+        // Expect error messages next to email and password fields
+        const emailErrorMessage = await pm.loginPage.getEmailErrorMessage();
+        expect(emailErrorMessage).toContain('Username is required');
+        const passwordErrorMessage = await pm.loginPage.getPasswordErrorMessage();
+        expect(passwordErrorMessage).toContain('Password is required');
+    });
+
+    test('Error message appears when login with invalid data', async ({ page, pm }) => {
+        const expectedMessage = 'Username or Password is incorrect.';
+        // Login with valid username but invalid password
+        await page.goto('/login');
+        await pm.loginPage.login(username, 'invalid_password');
+        // Expect error message on login form
+        let actualErrorMessage = await pm.loginPage.getLoginFormErrorMessage();
+        expect(actualErrorMessage).toContain(expectedMessage);
+
+        // Login with invalid username
+        await pm.loginPage.pageRefresh();
+        await pm.loginPage.login('invalid_username', password);
+        // Expect error message on login form
+        actualErrorMessage = await pm.loginPage.getLoginFormErrorMessage();
+        expect(actualErrorMessage).toContain(expectedMessage);
+    });
+
 });
