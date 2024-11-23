@@ -1,3 +1,4 @@
+
 import BasePage from './base.page.js';
 
 export default class LoginPage extends BasePage {
@@ -7,14 +8,25 @@ export default class LoginPage extends BasePage {
     }
 
     selectors = {
+        usernameInput: '[formcontrolname="username"]',
+        passwordInput: '[formcontrolname="password"]',
+        loginBtn: 'button[mat-raised-button] span:has-text("Login")',
+        usernameErrorMsg: '[id="mat-mdc-error-0"]',
+        passwordErrorMsg: '[id="mat-mdc-error-1"]',
     }
 
     async login(username, password) {
         console.log(`Login as '${username}'`)
-        await this.page.getByPlaceholder('Username').click();
-        await this.page.getByPlaceholder('Username').fill(username);
-        await this.page.getByText('Password').click();
-        await this.page.getByPlaceholder('Password').fill(password);
-        await this.page.locator('mat-card-actions').getByRole('button', { name: 'Login' }).click();
+        await this.page.fill(this.selectors.usernameInput, username);
+        await this.page.fill(this.selectors.passwordInput, password);
+        await this.page.click(this.selectors.loginBtn);
+    }
+
+    async getEmailErrorMessage() {
+        return await this.page.textContent(this.selectors.usernameErrorMsg);
+    }
+
+    async getPasswordErrorMessage() {
+        return await this.page.textContent(this.selectors.passwordErrorMsg);
     }
 }
