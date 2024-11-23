@@ -11,8 +11,9 @@ export default class LoginPage extends BasePage {
         usernameInput: '[formcontrolname="username"]',
         passwordInput: '[formcontrolname="password"]',
         loginBtn: 'button[mat-raised-button] span:has-text("Login")',
-        usernameErrorMsg: '[id="mat-mdc-error-0"]',
-        passwordErrorMsg: '[id="mat-mdc-error-1"]',
+        usernameErrorMsg: '#mat-mdc-error-0',
+        passwordErrorMsg: '#mat-mdc-error-1',
+        loginFormErrorMsg: 'mat-card-subtitle mat-error',
     }
 
     async login(username, password) {
@@ -28,5 +29,9 @@ export default class LoginPage extends BasePage {
 
     async getPasswordErrorMessage() {
         return await this.page.textContent(this.selectors.passwordErrorMsg);
+    }
+
+    async getLoginFormErrorMessage() {
+        return await this.page.textContent(this.selectors.loginFormErrorMsg);
     }
 }

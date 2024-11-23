@@ -15,7 +15,7 @@ test.describe('Login Tests', () => {
         expect(actualUser).toContain(username);
     });
 
-    test('Error messages appeare when login with empty fields', async ({ page, pm }) => {
+    test('Error messages appear when login with empty fields', async ({ page, pm }) => {
         // Login with empty username and password
         await page.goto('/login');
         await pm.loginPage.login('', '');
@@ -24,6 +24,23 @@ test.describe('Login Tests', () => {
         expect(emailErrorMessage).toContain('Username is required');
         const passwordErrorMessage = await pm.loginPage.getPasswordErrorMessage();
         expect(passwordErrorMessage).toContain('Password is required');
+    });
+
+    test('Error message appears when login with invalid data', async ({ page, pm }) => {
+        const expectedMessage = 'Username or Password is incorrect.';
+        // Login with valid username but invalid password
+        await page.goto('/login');
+        await pm.loginPage.login(username, 'invalid_password');
+        // Expect error message on login form
+        let actualErrorMessage = await pm.loginPage.getLoginFormErrorMessage();
+        expect(actualErrorMessage).toContain(expectedMessage);
+
+        // Login with invalid username
+        await pm.loginPage.pageRefresh();
+        await pm.loginPage.login('invalid_username', password);
+        // Expect error message on login form
+        actualErrorMessage = await pm.loginPage.getLoginFormErrorMessage();
+        expect(actualErrorMessage).toContain(expectedMessage);
     });
 
 });
