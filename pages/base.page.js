@@ -38,18 +38,7 @@ export default class BasePage {
 
             if (tagName === 'INPUT') {
                 const type = await element.getAttribute('type');
-                if (type === 'checkbox') {
-                    const isChecked = await element.isChecked();
-                    if ((value && !isChecked) || (!value && isChecked)) {
-                        await element.click();
-                    }
-                } else if (type === 'radio') {
-                    await element.check();
-                } else if (type === 'file') {
-                    await element.setInputFiles(value);
-                } else {
-                    await this.page.fill(selector, value);
-                }
+                this.handleDifferentTypesInputs(element, type, value)
             } else if (tagName === 'TEXTAREA') {
                 await this.page.fill(selector, value);
             } else if (tagName === 'SELECT') {
@@ -57,6 +46,24 @@ export default class BasePage {
             } else {
                 console.warn(`Unsupported tag "${tagName}" for selector "${selector}"`);
             }
+        }
+    }
+
+    async handleDifferentTypesInputs(element, type, value) {
+        switch (type) {
+            case 'checkbox': {
+                const isChecked = await element.isChecked();
+                if ((value && !isChecked) || (!value && isChecked)) await element.click();
+                break;
+            }
+            case 'radio':
+                await element.check();
+                break;
+            case 'file':
+                await element.setInputFiles(value);
+                break;
+            default:
+                await element.fill(value);
         }
     }
 }

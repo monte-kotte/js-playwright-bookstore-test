@@ -8,14 +8,14 @@ export default class MyOrdersPage extends BasePage {
 
     selectors = {
         ...this.selectors,
-        nextbtn: 'button[aria-label="Previous page"]',
-        lastOrderGrandTotal: 'table tr.example-element-row td.mat-column-orderTotal',
+        previousBtn: 'button[aria-label="Previous page"]',
+        addedOrderGrandTotal: 'table tr.example-element-row td.mat-column-orderTotal',
     }
 
-    async getLastOrderGrandTotal() {
-        while (await this.page.locator(this.selectors.nextbtn).isEnabled()) {
-            await this.page.locator(this.selectors.nextbtn).click();
+    async getAddedOrderGrandTotal() {
+        while (await this.page.locator(this.selectors.previousBtn).isEnabled()) {
+            await this.page.locator(this.selectors.previousBtn).click();
         }
-        return await this.page.locator(this.selectors.lastOrderGrandTotal).first().textContent();
+        return await this.page.locator(this.selectors.addedOrderGrandTotal).first().textContent();
     }
 }

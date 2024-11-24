@@ -14,24 +14,24 @@ test.describe('Books order test', () => {
         await pm.loginPage.waitPageLoad();
     })
 
-    test('User can place an order with one book', async ({ page, pm }) => {
+    const checkoutFormFields = {
+        '[formcontrolname="name"]': 'TEST name',
+        '[formcontrolname="addressLine1"]': 'Hoboken 123',
+        '[formcontrolname="addressLine2"]': '07030 USA',
+        '[formcontrolname="pincode"]': '123456',
+        '[formcontrolname="state"]': 'New Jersey',
+    };
+
+    test('User can place a book order', async ({ page, pm }) => {
+        // Place an order with one book
         await pm.homePage.addFirstBookToCart();
         await pm.homePage.openShoppingCart();
         await pm.shoppingCart.goToCheckout();
-
-        const fields = {
-            '[formcontrolname="name"]': 'TEST name',
-            '[formcontrolname="addressLine1"]': 'Hoboken 123',
-            '[formcontrolname="addressLine2"]': '07030 USA',
-            '[formcontrolname="pincode"]': '123456',
-            '[formcontrolname="state"]': 'New Jersey',
-        };
-
-        await pm.checkoutPage.fillForm(fields);
+        await pm.checkoutPage.fillForm(checkoutFormFields);
         const grandTotalFromCheckout = await pm.checkoutPage.getGrandTotal();
         await pm.checkoutPage.placeOrder();
         // Expect newly added order amount is equal to the amount in checkout
-        const lastOrderTotal = await pm.myOrdersPage.getLastOrderGrandTotal()
+        const lastOrderTotal = await pm.myOrdersPage.getAddedOrderGrandTotal()
         expect(lastOrderTotal).toContain(grandTotalFromCheckout);
     });
 
