@@ -6,9 +6,9 @@ test.describe('Books order test', () => {
     const username = process.env.USER_NAME;
     const password = process.env.USER_PASSWORD;
 
-    test.beforeEach('Login before each test', async ({ page, pm }) => {
+    test.beforeEach('Login before each test', async ({ pm }) => {
         // Login existing user
-        await page.goto('/login');
+        await pm.loginPage.navigate();
         await pm.loginPage.login(username, password);
         // Wait until the network is idle and DOMContent loaded
         await pm.loginPage.waitPageLoad();
@@ -22,7 +22,7 @@ test.describe('Books order test', () => {
         '[formcontrolname="state"]': 'New Jersey',
     };
 
-    test('User can place a book order', async ({ page, pm }) => {
+    test('User can place a book order', async ({ pm }) => {
         // Place an order with one book
         await pm.homePage.addFirstBookToCart();
         await pm.homePage.openShoppingCart();

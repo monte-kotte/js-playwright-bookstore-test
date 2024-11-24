@@ -11,6 +11,11 @@ export default class ShoppingCardPage extends BasePage {
         checkOutBtn: 'button:has-text("CheckOut")'
     }
 
+    async navigate() {
+        this.page.goto('/shopping-cart');
+        super.waitPageLoad()
+    }
+
     async goToCheckout() {
         await this.page.locator(this.selectors.checkOutBtn).click();
         super.waitPageLoad()

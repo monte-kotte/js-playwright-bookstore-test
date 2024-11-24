@@ -17,6 +17,10 @@ export default class LoginPage extends BasePage {
         loginFormErrorMsg: 'mat-card-subtitle mat-error',
     }
 
+    async navigate() {
+        this.page.goto('/login');
+    }
+
     async login(username, password) {
         await this.page.fill(this.selectors.usernameInput, username);
         await this.page.fill(this.selectors.passwordInput, password);

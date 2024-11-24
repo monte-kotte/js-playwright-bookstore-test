@@ -11,6 +11,11 @@ export default class HomePage extends BasePage {
         addToCardBtn: 'mat-card-content span.mdc-button__label'
     }
 
+    async navigate() {
+        this.page.goto('/');
+        super.waitPageLoad()
+    }
+
     async addFirstBookToCart() {
         await this.page.locator(this.selectors.addToCardBtn).first().click();
     }
