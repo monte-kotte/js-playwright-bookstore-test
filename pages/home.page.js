@@ -1,4 +1,3 @@
-
 import BasePage from './base.page.js';
 
 export default class HomePage extends BasePage {
@@ -8,10 +7,16 @@ export default class HomePage extends BasePage {
     }
 
     selectors = {
-        userName: '[aria-haspopup="menu"] span.mdc-button__label',
+        ...this.selectors,
+        addToCardBtn: 'mat-card-content span.mdc-button__label'
     }
 
-    async getActualUsername() {
-        return this.page.textContent(this.selectors.userName);
+    async navigate() {
+        this.page.goto('/');
+        super.waitPageLoad()
+    }
+
+    async addFirstBookToCart() {
+        await this.page.locator(this.selectors.addToCardBtn).first().click();
     }
 }

@@ -8,6 +8,7 @@ export default class LoginPage extends BasePage {
     }
 
     selectors = {
+        ...this.selectors,
         usernameInput: '[formcontrolname="username"]',
         passwordInput: '[formcontrolname="password"]',
         loginBtn: 'button[mat-raised-button] span:has-text("Login")',
@@ -16,8 +17,11 @@ export default class LoginPage extends BasePage {
         loginFormErrorMsg: 'mat-card-subtitle mat-error',
     }
 
+    async navigate() {
+        this.page.goto('/login');
+    }
+
     async login(username, password) {
-        console.log(`Login as '${username}'`)
         await this.page.fill(this.selectors.usernameInput, username);
         await this.page.fill(this.selectors.passwordInput, password);
         await this.page.click(this.selectors.loginBtn);
