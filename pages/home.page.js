@@ -8,7 +8,7 @@ export default class HomePage extends BasePage {
 
     selectors = {
         ...this.selectors,
-        addToCardBtn: 'mat-card-content span.mdc-button__label'
+        addToCartBtn: 'mat-card-content span.mdc-button__label'
     }
 
     async navigate() {
@@ -17,6 +17,10 @@ export default class HomePage extends BasePage {
     }
 
     async addFirstBookToCart() {
-        await this.page.locator(this.selectors.addToCardBtn).first().click();
+        await this.page.locator(this.selectors.addToCartBtn)
+            .first()
+            .waitFor({ state: 'visible' });
+        await this.page.locator(this.selectors.addToCartBtn).first().click();
+        super.waitPageLoad()
     }
 }

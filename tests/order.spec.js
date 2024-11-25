@@ -7,7 +7,7 @@ test.describe('Books order test', () => {
     const password = process.env.USER_PASSWORD;
 
     test.beforeEach('Login before each test', async ({ pm }) => {
-        // Login existing user
+        // Login with existing user
         await pm.loginPage.navigate();
         await pm.loginPage.login(username, password);
         // Wait until the network is idle and DOMContent loaded
