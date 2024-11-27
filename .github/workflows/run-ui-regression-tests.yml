@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Playwright UI Regression Tests
 
 on:
   pull_request:
@@ -28,13 +28,7 @@ jobs:
       run: npx playwright install
 
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npm run test:regression
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
         USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-
-    - name: Upload Lighthouse reports
-      uses: actions/upload-artifact@v4
-      with:
-        name: lighthouse-reports
-        path: ./lighthouse-reports/

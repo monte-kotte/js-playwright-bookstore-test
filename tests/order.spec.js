@@ -1,7 +1,7 @@
 import test from '../fixtures/test.fixtures.js';
 import { expect } from '@playwright/test';
 
-test.describe('Books order test', () => {
+test.describe('[@regression] Books order test', () => {
 
     const username = process.env.USER_NAME;
     const password = process.env.USER_PASSWORD;
