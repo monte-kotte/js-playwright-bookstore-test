@@ -1,7 +1,7 @@
 import test from '../fixtures/lighthouse.fixtures.js';
-import { thresholds } from '../lighthouse/data/thresholdData.js';
+import { thresholds } from '../lighthouse/data/threshold.data.js';
 import { URLs } from '../lighthouse/data/urls.json';
-import { runLighthouseAuditDesktop } from '../lighthouse/lighthouse-audit';
+import { runLighthouseAuditDesktop } from '../lighthouse/lighthouse.audit.js';
 
 URLs.forEach(url => {
     test(`[@performance] Ligthouse performance chrome desktop test for ${url}`, async ({ page }) => {
