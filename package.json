@@ -1,12 +1,16 @@
 {
   "name": "js-playwright-bookstore-test",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:regression": "npx playwright test --grep @regression",
+    "test:performance": "npx playwright test --grep @performance"
+  },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "@types/node": "^22.9.1"
