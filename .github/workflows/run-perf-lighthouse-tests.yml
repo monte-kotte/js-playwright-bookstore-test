@@ -1,4 +1,4 @@
-name: Lighthouse Peformance Tests
+name: Lighthouse Performance Tests
 
 on:
   workflow_dispatch:
@@ -30,3 +30,6 @@ jobs:
       with:
         name: lighthouse-reports
         path: ./lighthouse-reports/
+
+    - name: List Lighthouse report files
+      run: ls ./lighthouse-reports/
