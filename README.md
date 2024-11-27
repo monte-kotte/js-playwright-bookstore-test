@@ -1,6 +1,6 @@
 # Playwright UI and Performance Test Project
 
-This project uses [Playwright](https://playwright.dev/) to run automated UI and performance tests.
+This project uses [Playwright](https://playwright.dev/) to run automated UI and integrates with [Google Lighthouse](https://developers.google.com/web/tools/lighthouse) to run performance audits.
 
 The tests are written to interact with the demo bookstore website: [Test Demo Bookcart](https://bookcart.azurewebsites.net).
 
